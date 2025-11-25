@@ -1,0 +1,26 @@
+services:
+  ftp:
+    image: fauria/vsftpd
+    container_name: ftp
+    ports:
+      - "21:21"
+      - "21100-21110:21100-21110"
+    environment:
+      FTP_USER: test
+      FTP_PASS: test123
+      PASV_MIN_PORT: 21100
+      PASV_MAX_PORT: 21110
+      LOG_STDOUT: "YES"
+    volumes:
+      - ./ftp-data:/home/vsftpd
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
